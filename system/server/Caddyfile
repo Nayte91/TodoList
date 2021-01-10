@@ -1,0 +1,6 @@
+:80
+
+root * /app/web
+php_fastcgi todo-php:9000
+try_files {path} app_dev.php
+file_server

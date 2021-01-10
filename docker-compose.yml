@@ -1,0 +1,49 @@
+version: "3.5"
+
+services:
+  server:
+    container_name: todo-caddy
+    image: caddy:alpine
+    depends_on:
+      - backend
+    volumes:
+      - ./:/app
+      - ./system/server/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.todo.rule: Host(`todo.anagraph.org`)
+    ports:
+      - 8000:80
+
+  backend:
+    container_name: todo-php
+    build:
+      context: .
+      dockerfile: system/backend/Dockerfile
+      args:
+        PHP_VERSION: "7.1"
+    depends_on:
+      - database
+    volumes:
+      - .:/app
+
+  database:
+    container_name: todo-mysql
+    image: mysql:5.6
+    environment:
+      MYSQL_ROOT_PASSWORD: ChangeMe
+      MYSQL_DATABASE: todolist
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  caddy_data:
+  caddy_config:
+  mysql_data:
+
+#networks:
+#  default:
+#    external: true
+#    name: proxy
