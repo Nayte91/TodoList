@@ -29,6 +29,8 @@ services:
       - database
     volumes:
       - .:/app
+      - ./system/backend/php-custom.ini:/usr/local/etc/php/php.ini
+
 
   database:
     container_name: todo-mysql
