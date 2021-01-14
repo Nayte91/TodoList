@@ -29,6 +29,7 @@ services:
       - database
     volumes:
       - .:/app
+      #Comment or uncomment below if you need to pass some custom instructions to php.ini (and put them in the /system/backend/php-custom.ini of course)
       - ./system/backend/php-custom.ini:/usr/local/etc/php/php.ini
 
 
