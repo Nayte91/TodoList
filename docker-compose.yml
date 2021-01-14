@@ -23,7 +23,7 @@ services:
       context: .
       dockerfile: system/backend/Dockerfile
       args:
-        PHP_VERSION: 7.1
+        PHP_VERSION: 7.2
         COMPOSER_VERSION: 1
     depends_on:
       - database
@@ -35,7 +35,7 @@ services:
 
   database:
     container_name: todo-mysql
-    image: mysql:5.6
+    image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: ChangeMe
       MYSQL_DATABASE: todolist
