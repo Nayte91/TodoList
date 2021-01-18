@@ -14,8 +14,10 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.todo.rule: Host(`todo.anagraph.org`)
+# Uncomment below to earn web access to the project without Traefik
     ports:
-      - 8000:80
+#      - 8000:80
+      - 443:443
 
   backend:
     container_name: todo-php
@@ -23,16 +25,18 @@ services:
       context: .
       dockerfile: system/backend/Dockerfile
       args:
-        PHP_VERSION: 7.1
+        PHP_VERSION: 7.2
         COMPOSER_VERSION: 1
     depends_on:
       - database
     volumes:
       - .:/app
+# Uncomment below if you need to pass some custom instructions to php.ini
+      - ./system/backend/php-custom.ini:/usr/local/etc/php/php.ini
 
   database:
     container_name: todo-mysql
-    image: mysql:5.6
+    image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: ChangeMe
       MYSQL_DATABASE: todolist
@@ -44,6 +48,7 @@ volumes:
   caddy_config:
   mysql_data:
 
+# Uncomment below to link with Traefik
 #networks:
 #  default:
 #    external: true

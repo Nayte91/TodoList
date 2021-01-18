@@ -1,6 +1,13 @@
-:80
+:80 {
+    root * /app/public
+    php_fastcgi todo-php:9000
 
-root * /app/web
-php_fastcgi todo-php:9000
-try_files {path} app_dev.php
-file_server
+    file_server
+}
+
+localhost:443 {
+    root * /app/public
+    php_fastcgi todo-php:9000
+
+    file_server
+}
