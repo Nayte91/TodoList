@@ -29,6 +29,8 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "phpstan/phpstan": "^0.12.68",
+        "symfony/phpunit-bridge": "^5.2"
     },
     "config": {
         "preferred-install": {
