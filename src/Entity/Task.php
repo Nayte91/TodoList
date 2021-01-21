@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table
+ * @ORM\EntityListeners({"App\Event\TaskListener"})
  */
 class Task
 {
@@ -40,6 +41,12 @@ class Task
      */
     private $isDone;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
+
     public function __construct()
     {
         $this->createdAt = new \Datetime();
@@ -69,6 +76,8 @@ class Task
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return $this;
     }
 
     public function getContent()
@@ -79,6 +88,8 @@ class Task
     public function setContent($content)
     {
         $this->content = $content;
+
+        return $this;
     }
 
     public function isDone()
@@ -89,5 +100,17 @@ class Task
     public function toggle($flag)
     {
         $this->isDone = $flag;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
     }
 }
