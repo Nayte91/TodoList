@@ -3,7 +3,6 @@
 
 namespace App\Event;
 
-
 use App\Entity\Task;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -25,10 +24,9 @@ class TaskListener
     public function assignOwner(Task $task, LifecycleEventArgs $args)
     {
         if ($this->security->getUser()) {
-            $task->setOwner($this->getUser());
+            $task->setOwner($this->security->getUser());
         } else {
-            $defaultuser = $this->userRepository->findOneBy(['username' => 'anonyme']);
-            $task->setOwner($defaultuser);
+            $task->setOwner($this->userRepository->findOneBy(['username' => 'anonyme']));
         }
     }
 }
