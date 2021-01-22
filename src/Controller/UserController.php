@@ -28,7 +28,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/create", name="user_create")
      */
-    public function createAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function createAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -38,6 +38,10 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $user->setPassword($passwordEncoder->encodePassword($user, $user->getPassword()));
+
+            if (2 > $userRepository->countUsers()) {
+                $user->setRoles(['ROLE_ADMIN']);
+            }
 
             $em->persist($user);
             $em->flush();

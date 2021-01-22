@@ -45,11 +45,11 @@
                     {% endif %}
 
                     {% if is_granted('ROLE_USER') %}
-                    <a href="{{ path('logout') }}" class="btn btn-danger">Se déconnecter</a>
+                        <a href="{{ path('logout') }}" class="btn btn-danger">Se déconnecter</a>
                     {% endif %}
 
                     {% if not is_granted('ROLE_USER') and 'login' != app.request.attributes.get('_route') %}
-                    <a href="{{ path('login') }}" class="btn btn-success">Se connecter</a>
+                        <a href="{{ path('login') }}" class="btn btn-success">Se connecter</a>
                     {% endif %}
                 </div>
             </div>
