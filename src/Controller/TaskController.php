@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Repository\UserRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,13 +81,37 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
      */
-    public function deleteTaskAction(Task $task)
+    public function deleteTaskAction(Task $task, UserRepository $userRepository)
     {
+        if (
+            $task->getOwner() !== $userRepository->getTheAnonymousUser()
+            && $this->getUser() != $task->getOwner()
+        ) return $this->restrictDeletionToOwner();
+
+        if (
+            $task->getOwner() === $userRepository->getTheAnonymousUser()
+            && !$this->getUser()->isAdmin()
+        ) return $this->restrictDeletionToAdmin();
+
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
         $em->flush();
 
         $this->addFlash('success', 'La tâche a bien été supprimée.');
+
+        return $this->redirectToRoute('task_list');
+    }
+
+    private function restrictDeletionToOwner()
+    {
+        $this->addFlash('error', 'Vous ne pouvez supprimer une tâche qui ne vous appartient pas.');
+
+        return $this->redirectToRoute('task_list');
+    }
+
+    private function restrictDeletionToAdmin()
+    {
+        $this->addFlash('error', 'Cette tâche ne peut être supprimée que par un administrateur.');
 
         return $this->redirectToRoute('task_list');
     }
