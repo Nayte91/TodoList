@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-
+/** @Route("/users") */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/users", name="user_list")
+     * @Route("/", name="user_list")
      * @IsGranted("ROLE_ADMIN")
      */
     public function listAction(UserRepository $userRepository)
@@ -26,11 +26,11 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/users/create", name="user_create")
+     * @Route("/create", name="user_create")
      */
     public function createAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository)
     {
-        $user = new User();
+        $user = new User;
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
@@ -50,7 +50,8 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/users/{id}/edit", name="user_edit")
+     * @Route("/{id}/edit", name="user_edit")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function editAction(User $user, Request $request)
     {
