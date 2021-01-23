@@ -55,7 +55,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
 
-    public function getAnonymousUser(): User
+    public function getTheAnonymousUser(): User
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.email = :email')

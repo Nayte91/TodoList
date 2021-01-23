@@ -83,7 +83,15 @@ class TaskController extends AbstractController
      */
     public function deleteTaskAction(Task $task, UserRepository $userRepository)
     {
-        if ($this->getUser() != $task->getOwner()) return $this->restrictDeletionToOwner();
+        if (
+            $task->getOwner() !== $userRepository->getTheAnonymousUser()
+            && $this->getUser() != $task->getOwner()
+        ) return $this->restrictDeletionToOwner();
+
+        if (
+            $task->getOwner() === $userRepository->getTheAnonymousUser()
+            && !$this->getUser()->isAdmin()
+        ) return $this->restrictDeletionToAdmin();
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
@@ -96,7 +104,7 @@ class TaskController extends AbstractController
 
     private function restrictDeletionToOwner()
     {
-        $this->addFlash('error', 'Vous ne pouvez supprimer une tache qui ne vous appartient pas.');
+        $this->addFlash('error', 'Vous ne pouvez supprimer une tâche qui ne vous appartient pas.');
 
         return $this->redirectToRoute('task_list');
     }
