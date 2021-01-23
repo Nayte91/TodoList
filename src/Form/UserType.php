@@ -37,7 +37,6 @@ class UserType extends AbstractType
             ])
             ->add('email', EmailType::class, ['label' => 'Adresse email'])
             ->add('admin', CheckboxType::class, [
-                //'mapped' => false,
                 'label' => 'Mode administrateur',
                 'required' => false,
             ])
@@ -47,6 +46,7 @@ class UserType extends AbstractType
             )
         ;
     }
+
     public function afterSubmit(FormEvent $event): void
     {
         $user = $event->getData();
@@ -54,10 +54,6 @@ class UserType extends AbstractType
         if (!$user) return;
 
         $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
-
-        if ($event->getForm()->get('admin')->getData()) {
-            $user->setRoles(['ROLE_ADMIN']);
-        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
