@@ -52,6 +52,8 @@ class User implements UserInterface
      */
     private $tasks;
 
+    private $admin;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -167,6 +169,22 @@ class User implements UserInterface
             if ($task->getOwner() === $this) {
                 $task->setOwner(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function isAdmin(): bool
+    {
+        return ((bool) array_search('ROLE_ADMIN',$this->getRoles()));
+    }
+
+    public function setAdmin(bool $adminMode): self
+    {
+        if ($adminMode) {
+            $this->setRoles(['ROLE_ADMIN']);
+        } else {
+            $this->setRoles([]);
         }
 
         return $this;

@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,9 +12,18 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserType extends AbstractType
 {
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -27,7 +37,7 @@ class UserType extends AbstractType
             ])
             ->add('email', EmailType::class, ['label' => 'Adresse email'])
             ->add('admin', CheckboxType::class, [
-                'mapped' => false,
+                //'mapped' => false,
                 'label' => 'Mode administrateur',
                 'required' => false,
             ])
@@ -37,15 +47,23 @@ class UserType extends AbstractType
             )
         ;
     }
-
     public function afterSubmit(FormEvent $event): void
     {
         $user = $event->getData();
 
         if (!$user) return;
 
+        $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
+
         if ($event->getForm()->get('admin')->getData()) {
             $user->setRoles(['ROLE_ADMIN']);
         }
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => User::class,
+        ]);
     }
 }
