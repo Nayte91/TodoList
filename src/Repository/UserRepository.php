@@ -54,4 +54,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult()
         ;
     }
+
+    public function getAnonymousUser(): User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.email = :email')
+            ->setParameter('email', "anonymous@todoandco.com")
+            ->getQuery()
+            ->getSingleResult()
+            ;
+    }
 }
