@@ -171,4 +171,16 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function isAdmin(): bool
+    {
+        return in_array('ROLE_ADMIN', $this->getRoles());
+    }
+
+    public function setAdmin(bool $adminMode): self
+    {
+        ($adminMode)? $this->setRoles(['ROLE_ADMIN']):$this->setRoles([]);
+
+        return $this;
+    }
 }

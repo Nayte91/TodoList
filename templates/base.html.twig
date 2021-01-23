@@ -10,6 +10,9 @@
 
         <title>To Do List app</title>
 
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{{ asset('assets/img/favicon-32x32.png') }}">
+
         <!-- Bootstrap Core CSS -->
         <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
 
@@ -37,15 +40,23 @@
         <!-- Page Content -->
         <div class="container">
             <div class="row">
-                <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
+                <div class="pull-left">
+                    <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
+                </div>
 
-                {% if app.user %}
-                <a href="{{ path('logout') }}" class="pull-right btn btn-danger">Se déconnecter</a>
-                {% endif %}
+                <div class="pull-right">
+                    {% if is_granted('ROLE_ADMIN') and 'user_list' != app.request.attributes.get('_route') %}
+                        <a href="{{ path('user_list') }}" class="btn btn-info">liste des utilisateurs</a>
+                    {% endif %}
 
-                {% if not app.user and 'login' != app.request.attributes.get('_route') %}
-                <a href="{{ path('login') }}" class="btn btn-success">Se connecter</a>
-                {% endif %}
+                    {% if is_granted('ROLE_USER') %}
+                        <a href="{{ path('logout') }}" class="btn btn-danger">Se déconnecter</a>
+                    {% endif %}
+
+                    {% if not is_granted('ROLE_USER') and 'login' != app.request.attributes.get('_route') %}
+                        <a href="{{ path('login') }}" class="btn btn-success">Se connecter</a>
+                    {% endif %}
+                </div>
             </div>
 
             <div class="row">
