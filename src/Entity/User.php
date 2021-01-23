@@ -69,7 +69,7 @@ class User implements UserInterface
 
     public function setEmail(string $email): self
     {
-        $this->email = $email;
+        $this->email = strtolower($email);
 
         return $this;
     }
@@ -137,7 +137,7 @@ class User implements UserInterface
 
     public function setUsername(string $username): self
     {
-        $this->username = $username;
+        $this->username = strtolower($username);
 
         return $this;
     }
