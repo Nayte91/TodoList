@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-/** @Route("/users") */
+/**
+ * @Route("/users")
+ * @IsGranted("ROLE_ADMIN")
+ */
 class UserController extends AbstractController
 {
-    /**
-     * @Route("/", name="user_list")
-     * @IsGranted("ROLE_ADMIN")
-     */
+    /** @Route("/", name="user_list") */
     public function listAction(UserRepository $userRepository)
     {
         return $this->render('user/list.html.twig', [
@@ -25,9 +25,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/create", name="user_create")
-     */
+    /** @Route("/create", name="user_create", methods={"GET", "POST"}) */
     public function createAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository)
     {
         $user = new User;
@@ -46,13 +44,12 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/create.html.twig', ['form' => $form->createView()]);
+        return $this->render('user/create.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="user_edit")
-     * @IsGranted("ROLE_ADMIN")
-     */
+    /** @Route("/{id}/edit", name="user_edit", methods={"GET", "POST"}) */
     public function editAction(User $user, Request $request)
     {
         $form = $this->createForm(UserType::class, $user);
@@ -67,6 +64,9 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+        return $this->render('user/edit.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user
+        ]);
     }
 }

@@ -54,7 +54,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->tasks = new ArrayCollection();
+        $this->tasks = new ArrayCollection;
     }
 
     public function getId(): ?int
