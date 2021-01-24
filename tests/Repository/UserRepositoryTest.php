@@ -29,14 +29,14 @@ class UserRepositoryTest extends KernelTestCase
     {
         $number = (int) $this->entityManager->getRepository(User::class)->countUsers();
 
-        $this->assertSame(2, $number);
+        $this->assertSame(3, $number);
     }
 
     public function testFindRealUsersReturnsOne()
     {
         $realUsers = $this->entityManager->getRepository(User::class)->findRealUsers();
 
-        $this->assertSame(1, count($realUsers));
+        $this->assertSame(2, count($realUsers));
     }
 
     public function testGetAnonymousUser()

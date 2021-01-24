@@ -90,7 +90,8 @@ class TaskController extends AbstractController
 
         if (
             $task->getOwner() === $userRepository->getTheAnonymousUser()
-            && !$this->getUser()->isAdmin()
+            && !$this->getUser()
+            OR !$this->getUser()->isAdmin()
         ) return $this->restrictDeletionToAdmin();
 
         $em = $this->getDoctrine()->getManager();

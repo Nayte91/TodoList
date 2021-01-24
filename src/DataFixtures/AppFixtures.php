@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Task;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -18,8 +19,21 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $manager->persist($this->createAnonymousUser());
-        $manager->persist($this->createOriginalAdmin());
+        $anonymousUser = $this->createAnonymousUser();
+        $manager->persist($anonymousUser);
+
+        $admin = $this->createOriginalAdmin();
+        $manager->persist($admin);
+
+        $user = $this->createNormalUser();
+        $manager->persist($user);
+
+        $manager->flush();
+
+        $manager->persist($this->createUnlinkedTask($anonymousUser));
+        $manager->persist($this->createAdminTask($admin));
+        $manager->persist($this->createNormalTask($user));
+
         $manager->flush();
     }
 
@@ -29,7 +43,8 @@ class AppFixtures extends Fixture
         return $anonymousUser
             ->setEmail('anonymous@todoandco.com')
             ->setPassword($this->encoder->encodePassword($anonymousUser, '1ntr0uv4bl3'))
-            ->setUsername('anonyme');
+            ->setUsername('anonyme')
+            ;
     }
 
     private function createOriginalAdmin(): User
@@ -39,6 +54,48 @@ class AppFixtures extends Fixture
             ->setEmail('admin@changezmoi.fr')
             ->setPassword($this->encoder->encodePassword($originalAdmin, 'admin'))
             ->setAdmin(true)
-            ->setUsername('administrateur');
+            ->setUsername('administrateur')
+            ;
+    }
+
+    private function createNormalUser()
+    {
+        $user = new User;
+        return $user
+            ->setEmail('juste.leblanc@todoandco.com')
+            ->setPassword($this->encoder->encodePassword($user, 'juste'))
+            ->setAdmin(false)
+            ->setUsername('Juste Leblanc')
+            ;
+    }
+
+    private function createUnlinkedTask(User $anonymous): Task
+    {
+        $anonymousTask = new Task;
+        return $anonymousTask
+            ->setTitle('Tache anonyme')
+            ->setContent('Cette tache n\'est attachée à aucun utilisateur particulier')
+            ->setOwner($anonymous)
+            ;
+    }
+
+    private function createAdminTask(User $admin): Task
+    {
+        $adminTask = new Task;
+        return $adminTask
+            ->setTitle('Tache administrateur')
+            ->setContent('Cette tache appartient à l\'administrateur.')
+            ->setOwner($admin)
+            ;
+    }
+
+    private function createNormalTask(User $user): Task
+    {
+        $adminTask = new Task;
+        return $adminTask
+            ->setTitle('Tache classique')
+            ->setContent('Cette tache appartient à un utilisateur normal.')
+            ->setOwner($user)
+            ;
     }
 }
