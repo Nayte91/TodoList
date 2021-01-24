@@ -16,11 +16,12 @@ class DefaultControllerTest extends WebTestCase
         $this->ensureKernelShutdown();
     }
 
-    public function testShowPost()
+    public function testHomepageHasButtons()
     {
         $client = static::createClient();
-        $client->request('GET', '/');
+        $homepage = $client->request('GET', '/');
 
-        $this->assertResponseStatusCodeSame(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(4,count($homepage->filter('a.btn')));
+        $this->assertSame('Se connecter', $homepage->filter('a.btn')->eq(0)->text());
     }
 }
