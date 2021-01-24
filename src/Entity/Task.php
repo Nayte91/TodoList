@@ -49,7 +49,7 @@ class Task
 
     public function __construct()
     {
-        $this->createdAt = new \Datetime();
+        $this->createdAt = new \Datetime;
         $this->isDone = false;
     }
 
@@ -61,11 +61,6 @@ class Task
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
     }
 
     public function getTitle()
