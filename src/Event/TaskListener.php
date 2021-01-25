@@ -23,7 +23,7 @@ class TaskListener
     /** @ORM\PrePersist */
     public function assignOwner(Task $task, LifecycleEventArgs $args)
     {
-        if ('cli' == php_sapi_name()) return;
+        if ('cli' == php_sapi_name() && $task->getOwner()) return;
 
         if (!$this->security->getUser()) {
             $task->setOwner($this->userRepository->findOneBy(['username' => 'anonyme']));
