@@ -14,7 +14,7 @@ class UserRepositoryTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        $this->loadFixtures(['App\DataFixtures\AppFixtures']);
+        $this->loadFixtures(['App\DataFixtures\TestFixtures']);
         $kernel = self::bootKernel();
 
         $this->entityManager = $kernel->getContainer()

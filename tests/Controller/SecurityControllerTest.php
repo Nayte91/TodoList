@@ -12,15 +12,22 @@ class SecurityControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->loadFixtures(['App\DataFixtures\AppFixtures']);
+        $this->loadFixtures(['App\DataFixtures\TestFixtures']);
         $this->ensureKernelShutdown();
     }
 
     public function testLoginSession()
     {
         $client = static::createClient();
-        $loginpage = $client->request('GET', '/login');
+        $client->followRedirects();
 
-        $this->assertEquals(2,count($loginpage->filter('input.form-control')));
+        $client->request('GET', '/login');
+        $client->submitForm('Sign in',  [
+            'email' => 'admin@changezmoi.fr',
+            'password' => 'admin'
+        ]);
+
+        $this->assertSelectorTextContains('a.btn-danger','Se déconnecter');
     }
+
 }
