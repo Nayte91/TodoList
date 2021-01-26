@@ -54,7 +54,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->tasks = new ArrayCollection();
+        $this->tasks = new ArrayCollection;
     }
 
     public function getId(): ?int
@@ -69,7 +69,7 @@ class User implements UserInterface
 
     public function setEmail(string $email): self
     {
-        $this->email = $email;
+        $this->email = strtolower($email);
 
         return $this;
     }
@@ -137,7 +137,7 @@ class User implements UserInterface
 
     public function setUsername(string $username): self
     {
-        $this->username = $username;
+        $this->username = strtolower($username);
 
         return $this;
     }

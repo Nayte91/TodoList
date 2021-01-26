@@ -3,15 +3,25 @@
 
 namespace App\Tests\Controller;
 
+use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
-    public function testShowPost()
+    use FixturesTrait;
+
+    protected function setUp(): void
+    {
+        $this->loadFixtures(['App\DataFixtures\AppFixtures']);
+        $this->ensureKernelShutdown();
+    }
+
+    public function testHomepageHasButtons()
     {
         $client = static::createClient();
-        $client->request('GET', '/');
+        $homepage = $client->request('GET', '/');
 
-        $this->assertResponseStatusCodeSame(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(4,count($homepage->filter('a.btn')));
+        $this->assertSame('Se connecter', $homepage->filter('a.btn')->eq(0)->text());
     }
 }

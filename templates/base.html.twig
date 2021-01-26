@@ -41,20 +41,19 @@
         <div class="container">
             <div class="row">
                 <div class="pull-left">
-                    <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
+                    {% if is_granted('ROLE_USER') %}
+                        <a href="{{ path('logout') }}" class="btn btn-danger">Se déconnecter</a>
+                    {% elseif 'login' != app.request.attributes.get('_route') %}
+                        <a href="{{ path('login') }}" class="btn btn-success">Se connecter</a>
+                    {% endif %}
                 </div>
 
                 <div class="pull-right">
                     {% if is_granted('ROLE_ADMIN') and 'user_list' != app.request.attributes.get('_route') %}
                         <a href="{{ path('user_list') }}" class="btn btn-info">liste des utilisateurs</a>
                     {% endif %}
-
-                    {% if is_granted('ROLE_USER') %}
-                        <a href="{{ path('logout') }}" class="btn btn-danger">Se déconnecter</a>
-                    {% endif %}
-
-                    {% if not is_granted('ROLE_USER') and 'login' != app.request.attributes.get('_route') %}
-                        <a href="{{ path('login') }}" class="btn btn-success">Se connecter</a>
+                    {% if is_granted('ROLE_ADMIN') and 'user_create' != app.request.attributes.get('_route') %}
+                        <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
                     {% endif %}
                 </div>
             </div>

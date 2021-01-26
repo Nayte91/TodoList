@@ -24,7 +24,7 @@ class TaskController extends AbstractController
      */
     public function createAction(Request $request)
     {
-        $task = new Task();
+        $task = new Task;
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -51,7 +51,7 @@ class TaskController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
@@ -90,7 +90,8 @@ class TaskController extends AbstractController
 
         if (
             $task->getOwner() === $userRepository->getTheAnonymousUser()
-            && !$this->getUser()->isAdmin()
+            && !$this->getUser()
+            OR !$this->getUser()->isAdmin()
         ) return $this->restrictDeletionToAdmin();
 
         $em = $this->getDoctrine()->getManager();
