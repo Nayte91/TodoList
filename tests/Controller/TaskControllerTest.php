@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Tests\Controller;
-
-use App\Controller\TaskController;
+;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

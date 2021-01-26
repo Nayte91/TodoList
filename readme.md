@@ -20,4 +20,8 @@
 
 ##Utiliser le projet
 
-Le premier utilisateur qui sera créé sera admin. Il pourra alors administrer tous les autres !
+Un premier utilisateur avec les droits administrateur est créé avec les fixtures. Il pourra alors administrer tous les autres. Ses identifiants :
+```
+Login : admin@changezmoi.fr
+pass : admin
+```
