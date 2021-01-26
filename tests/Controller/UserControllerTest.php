@@ -12,7 +12,7 @@ class UserControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->loadFixtures(['App\DataFixtures\TestFixtures']);
+        $this->loadFixtures(['App\DataFixtures\AppFixtures']);
         $this->ensureKernelShutdown();
     }
 
@@ -87,8 +87,8 @@ class UserControllerTest extends WebTestCase
     private function createClientLoggedAsBasicUser(bool $withRedirects = true)
     {
         $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'juste.leblanc@todoandco.com',
-            'PHP_AUTH_PW'   => 'juste',
+            'PHP_AUTH_USER' => 'basic@changezmoi.fr',
+            'PHP_AUTH_PW'   => 'basic',
         ]);
 
         if ($withRedirects) $client->followRedirects();

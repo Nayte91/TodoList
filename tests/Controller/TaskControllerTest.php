@@ -11,7 +11,7 @@ class TaskControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->loadFixtures(['App\DataFixtures\TestFixtures']);
+        $this->loadFixtures(['App\DataFixtures\AppFixtures']);
         $this->ensureKernelShutdown();
     }
 
@@ -63,6 +63,19 @@ class TaskControllerTest extends WebTestCase
         $this->assertSelectorTextContains('div.alert-success','La tâche a bien été ajoutée.');
     }
 
+    public function testCreateTaskLogged()
+    {
+        $client = $this->createClientLoggedAsBasicUser();
+
+        $client->request('GET', '/tasks/create');
+        $client->submitForm('Ajouter',  [
+            'task[title]' => 'toto',
+            'task[content]' => 'test task'
+        ]);
+
+        $this->assertSelectorTextContains('div.alert-success','La tâche a bien été ajoutée.');
+    }
+
     public function testTaskEdition()
     {
         $client = $this->createClientUnlogged();
@@ -97,8 +110,8 @@ class TaskControllerTest extends WebTestCase
     private function createClientLoggedAsBasicUser()
     {
         $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'juste.leblanc@todoandco.com',
-            'PHP_AUTH_PW'   => 'juste',
+            'PHP_AUTH_USER' => 'basic@changezmoi.fr',
+            'PHP_AUTH_PW'   => 'basic',
         ]);
         $client->followRedirects();
 

@@ -12,7 +12,7 @@ class SecurityControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->loadFixtures(['App\DataFixtures\TestFixtures']);
+        $this->loadFixtures(['App\DataFixtures\AppFixtures']);
         $this->ensureKernelShutdown();
     }
 
@@ -29,5 +29,4 @@ class SecurityControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('a.btn-danger','Se déconnecter');
     }
-
 }
