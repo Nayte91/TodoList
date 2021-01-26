@@ -25,3 +25,13 @@ Un premier utilisateur avec les droits administrateur est créé avec les fixtur
 Login : admin@changezmoi.fr
 pass : admin
 ```
+
+##Tests
+
+* Pour lancer les tests et générer le rapport de couverture de code en html, qui sera dans le répertoire reports/ :
+
+`docker-compose exec backend php bin/phpunit --coverage-html reports/`
+
+* Pour lancer l'analyse statique du code :
+
+`docker-compose exec backend php vendor/bin/phpstan analyse src/`
