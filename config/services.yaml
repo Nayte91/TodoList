@@ -32,3 +32,6 @@ services:
 
     App\Event\TaskListener:
         tags: [ doctrine.orm.entity_listener ]
+
+    App\Fixtures\:
+        resource: '../fixtures/'
