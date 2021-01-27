@@ -19,20 +19,8 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $anonymousUser = $this->createAnonymousUser();
-        $manager->persist($anonymousUser);
-
-        $adminUser = $this->createAdminUser();
-        $manager->persist($adminUser);
-
-        $basicUser = $this->createBasicUser();
-        $manager->persist($basicUser);
-
-        $manager->flush();
-
-        $manager->persist($this->createUnlinkedTask($anonymousUser));
-        $manager->persist($this->createAdminTask($adminUser));
-        $manager->persist($this->createBasicTask($basicUser));
+        $manager->persist($this->createAnonymousUser());
+        $manager->persist($this->createAdminUser());
 
         $manager->flush();
     }
@@ -55,47 +43,6 @@ class AppFixtures extends Fixture
             ->setPassword($this->encoder->encodePassword($adminUser, 'admin'))
             ->setAdmin(true)
             ->setUsername('administrateur')
-            ;
-    }
-
-    private function createBasicUser()
-    {
-        $basicUser = new User;
-        return $basicUser
-            ->setEmail('basic@changezmoi.fr')
-            ->setPassword($this->encoder->encodePassword($basicUser, 'basic'))
-            ->setAdmin(false)
-            ->setUsername('utilisateur basique')
-            ;
-    }
-
-    private function createUnlinkedTask(User $anonymous): Task
-    {
-        $anonymousTask = new Task;
-        return $anonymousTask
-            ->setTitle('Tache anonyme')
-            ->setContent('Cette tache n\'est attachée à aucun utilisateur particulier')
-            ->setOwner($anonymous)
-            ;
-    }
-
-    private function createAdminTask(User $admin): Task
-    {
-        $adminTask = new Task;
-        return $adminTask
-            ->setTitle('Tache administrateur')
-            ->setContent('Cette tache appartient à l\'administrateur.')
-            ->setOwner($admin)
-            ;
-    }
-
-    private function createBasicTask(User $user): Task
-    {
-        $basicTask = new Task;
-        return $basicTask
-            ->setTitle('Tache classique')
-            ->setContent('Cette tache appartient à un utilisateur normal.')
-            ->setOwner($user)
             ;
     }
 }

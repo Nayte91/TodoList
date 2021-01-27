@@ -12,7 +12,7 @@ class DefaultControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->loadFixtures(['App\DataFixtures\AppFixtures']);
+        $this->loadFixtures(['App\Tests\Fixtures\TestFixtures']);
         $this->ensureKernelShutdown();
     }
 
