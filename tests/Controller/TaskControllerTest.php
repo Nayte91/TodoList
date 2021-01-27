@@ -32,7 +32,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertSelectorTextContains('div.alert-danger','Vous ne pouvez supprimer une tâche qui ne vous appartient pas.');
     }
 
-    public function testDeleteAdminTaskWithoutRights()
+    public function testDeleteAnonymousTaskWithoutRights()
     {
         $client = $this->createClientLoggedAsBasicUser();
 
