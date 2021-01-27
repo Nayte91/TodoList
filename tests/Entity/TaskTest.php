@@ -36,6 +36,5 @@ class TaskTest extends TestCase
         $user = new User;
         $task->setOwner($user);
         $this->assertSame($user, $task->getOwner());
-
     }
 }
