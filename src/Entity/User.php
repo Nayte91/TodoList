@@ -42,7 +42,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\Column(type="string", length=25, unique=true)
      * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur.")
      */
     private $username;
@@ -74,14 +74,16 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUsername(): string
     {
         return (string) ucfirst($this->username);
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = strtolower($username);
+
+        return $this;
     }
 
     /**
@@ -121,26 +123,12 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt()
-    {
-        // not needed when using the "bcrypt" algorithm in security.yaml
-    }
+    public function getSalt() { }
 
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = strtolower($username);
-
-        return $this;
-    }
+    public function eraseCredentials() { }
 
     /**
      * @return Collection|Task[]
