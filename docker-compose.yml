@@ -43,6 +43,12 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  blackfire:
+    container_name: todo-blackfire
+    image: blackfire/blackfire
+    env_file: .env.local
+    ports: ["8707"]
+
 volumes:
   caddy_data:
   caddy_config:
