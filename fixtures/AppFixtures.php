@@ -31,6 +31,7 @@ class AppFixtures extends Fixture
         return $anonymousUser
             ->setEmail('anonymous@todoandco.com')
             ->setPassword($this->encoder->encodePassword($anonymousUser, '1ntr0uv4bl3'))
+            ->setRoles(['ANONYMOUS'])
             ->setUsername('anonyme');
     }
 
