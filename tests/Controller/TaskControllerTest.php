@@ -5,6 +5,7 @@ namespace App\Tests\Controller;
 
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 final class TaskControllerTest extends WebTestCase
 {
@@ -24,29 +25,40 @@ final class TaskControllerTest extends WebTestCase
         $this->assertSame(3, count($taskIndex->filter('span.glyphicon-remove')));
     }
 
-    public function testDeleteTaskNotOwnedSendsError()
+    public function testDeleteTaskNotOwned()
     {
+        $this->expectException(AccessDeniedException::class);
+
         $client = $this->createClientLoggedAsBasicUser();
+        $client->catchExceptions(false);
 
         $client->request('GET', '/tasks/2/delete');
-
-        $this->assertSelectorTextContains('div.alert-danger', 'Vous ne pouvez supprimer une tâche qui ne vous appartient pas.');
     }
 
-    public function testDeleteAnonymousTaskWithoutRights()
+    public function testDeleteTaskBeingOwned()
     {
         $client = $this->createClientLoggedAsBasicUser();
 
-        $client->request('GET', '/tasks/1/delete');
+        $client->request('GET', '/tasks/3/delete');
 
-        $this->assertSelectorTextContains('div.alert-danger', 'Cette tâche ne peut être supprimée que par un administrateur.');
+        $this->assertSelectorTextContains('div.alert-success', 'La tâche a bien été supprimée.');
     }
 
-    public function testDeleteTaskCorrectly()
+    public function testDeleteAnonymousTaskNotAdmin()
+    {
+        $this->expectException(AccessDeniedException::class);
+
+        $client = $this->createClientLoggedAsBasicUser();
+        $client->catchExceptions(false);
+
+        $client->request('GET', '/tasks/1/delete');
+    }
+
+    public function testDeleteAnonymousTaskBeingAdmin()
     {
         $client = $this->createClientLoggedAsAdminUser();
 
-        $client->request('GET', '/tasks/2/delete');
+        $client->request('GET', '/tasks/1/delete');
 
         $this->assertSelectorTextContains('div.alert-success', 'La tâche a bien été supprimée.');
     }

@@ -88,22 +88,7 @@ final class TaskController extends AbstractController
      */
     public function deleteTask(Task $task, UserRepository $userRepository)
     {
-        //$this->denyAccessUnlessGranted('DELETE', 'Vous ne pouvez supprimer une tâche qui ne vous appartient pas.');
-
-        if (
-            $task->getOwner() !== $userRepository->getTheAnonymousUser()
-            && $this->getUser() != $task->getOwner()
-        ) {
-            return $this->restrictDeletionToOwner();
-        }
-
-        if (
-            $task->getOwner() === $userRepository->getTheAnonymousUser()
-            && !$this->getUser()
-            or !$this->getUser()->isAdmin()
-        ) {
-            return $this->restrictDeletionToAdmin();
-        }
+        $this->denyAccessUnlessGranted('DELETE', $task,'Vous ne pouvez supprimer cette tâche.');
 
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
