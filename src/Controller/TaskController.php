@@ -98,18 +98,4 @@ final class TaskController extends AbstractController
 
         return $this->redirectToRoute('task_list');
     }
-
-    private function restrictDeletionToOwner()
-    {
-        $this->addFlash('error', 'Vous ne pouvez supprimer une tâche qui ne vous appartient pas.');
-
-        return $this->redirectToRoute('task_list');
-    }
-
-    private function restrictDeletionToAdmin()
-    {
-        $this->addFlash('error', 'Cette tâche ne peut être supprimée que par un administrateur.');
-
-        return $this->redirectToRoute('task_list');
-    }
 }
