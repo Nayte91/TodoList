@@ -6,7 +6,7 @@ namespace App\Tests\Controller;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class TaskControllerTest extends WebTestCase
+final class TaskControllerTest extends WebTestCase
 {
     use FixturesTrait;
 
@@ -77,7 +77,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertSelectorTextContains('div.alert-success', 'La tâche a bien été ajoutée.');
     }
 
-    public function testTaskEdition()
+    public function testTaskEditionWithOwner()
     {
         $client = $this->createClientUnlogged();
 

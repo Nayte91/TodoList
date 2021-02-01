@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * @Route("/users")
  * @IsGranted("ROLE_ADMIN", message="You can't access without admin rights.")
  */
-class UserController extends AbstractController
+final class UserController extends AbstractController
 {
     /** @Route("/", name="user_list") */
     public function listUsers(UserRepository $userRepository)

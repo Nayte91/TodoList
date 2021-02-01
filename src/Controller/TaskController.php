@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
-class TaskController extends AbstractController
+final class TaskController extends AbstractController
 {
     /**
      * @Route("/tasks", name="task_list")
@@ -88,6 +88,8 @@ class TaskController extends AbstractController
      */
     public function deleteTask(Task $task, UserRepository $userRepository)
     {
+        //$this->denyAccessUnlessGranted('DELETE', 'Vous ne pouvez supprimer une tâche qui ne vous appartient pas.');
+
         if (
             $task->getOwner() !== $userRepository->getTheAnonymousUser()
             && $this->getUser() != $task->getOwner()
