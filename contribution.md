@@ -31,7 +31,7 @@ La qualité du code peut faire l'objet d'un livre entier, mais il faut au minimu
 
 Pour l'architecture du code : 
 * Les [Best Practices Symfony](https://symfony.com/doc/current/best_practices.html)
-* Les [principes SOLID](https://medium.com/prod-io/solid-principles-takeaways-ec0825a07247), c'est à dire :
+* Les [principes SOLID](https://medium.com/prod-io/solid-principles-takeaways-ec0825a07247), soit en résumé :
   * "Single Responsibility Principle", soit le fait qu'une classe doit faire une seule chose.
   * "Open-Close Principle", soit le fait de pouvoir modifier le code sans avoir à toucher une classe existante.
   * "Liskov Substitution", soit le fait que les actions des classes peuvent être remplacées par des interfaces.
@@ -43,7 +43,7 @@ Pour l'architecture du code :
 Une proposition de contribution ne peut pas être acceptée si elle n'est pas livrée avec ses tests.
 
 * Préparer l'environnement de test, en écrivant les fixtures ou dataset requis. 
-  La base de données de test est déjà précisée.
+  La base de données de test est déjà précisée dans le .env.test; faire bien attention de ne pas vider la base de production.
 * L'arborescence du répertoire tests/doit suivre celle du répertoire src/.
 * Chaque classe du projet NomDeLaClasse.php dans src/ doit avoir une classe de test appelée NomDeLaClasseTest.php dans tests/.
 * Tout nom de méthode de test doit commencer par "test" puis être assez explicite pour comprendre l'enjeu du test facilement.
