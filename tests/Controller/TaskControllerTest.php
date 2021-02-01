@@ -2,10 +2,12 @@
 
 namespace App\Tests\Controller;
 ;
+
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class TaskControllerTest extends WebTestCase
+final class TaskControllerTest extends WebTestCase
 {
     use FixturesTrait;
 
@@ -23,31 +25,42 @@ class TaskControllerTest extends WebTestCase
         $this->assertSame(3, count($taskIndex->filter('span.glyphicon-remove')));
     }
 
-    public function testDeleteTaskNotOwnedSendsError()
+    public function testDeleteTaskNotOwned()
     {
+        $this->expectException(AccessDeniedException::class);
+
         $client = $this->createClientLoggedAsBasicUser();
+        $client->catchExceptions(false);
 
         $client->request('GET', '/tasks/2/delete');
-
-        $this->assertSelectorTextContains('div.alert-danger','Vous ne pouvez supprimer une tâche qui ne vous appartient pas.');
     }
 
-    public function testDeleteAnonymousTaskWithoutRights()
+    public function testDeleteTaskBeingOwned()
     {
         $client = $this->createClientLoggedAsBasicUser();
 
-        $client->request('GET', '/tasks/1/delete');
+        $client->request('GET', '/tasks/3/delete');
 
-        $this->assertSelectorTextContains('div.alert-danger','Cette tâche ne peut être supprimée que par un administrateur.');
+        $this->assertSelectorTextContains('div.alert-success', 'La tâche a bien été supprimée.');
     }
 
-    public function testDeleteTaskCorrectly()
+    public function testDeleteAnonymousTaskNotAdmin()
+    {
+        $this->expectException(AccessDeniedException::class);
+
+        $client = $this->createClientLoggedAsBasicUser();
+        $client->catchExceptions(false);
+
+        $client->request('GET', '/tasks/1/delete');
+    }
+
+    public function testDeleteAnonymousTaskBeingAdmin()
     {
         $client = $this->createClientLoggedAsAdminUser();
 
-        $client->request('GET', '/tasks/2/delete');
+        $client->request('GET', '/tasks/1/delete');
 
-        $this->assertSelectorTextContains('div.alert-success','La tâche a bien été supprimée.');
+        $this->assertSelectorTextContains('div.alert-success', 'La tâche a bien été supprimée.');
     }
 
     public function testCreateTaskAnonymously()
@@ -55,12 +68,12 @@ class TaskControllerTest extends WebTestCase
         $client = $this->createClientUnlogged();
 
         $client->request('GET', '/tasks/create');
-        $client->submitForm('Ajouter',  [
+        $client->submitForm('Ajouter', [
             'task[title]' => 'toto',
             'task[content]' => 'test task'
         ]);
 
-        $this->assertSelectorTextContains('div.alert-success','La tâche a bien été ajoutée.');
+        $this->assertSelectorTextContains('div.alert-success', 'La tâche a bien été ajoutée.');
     }
 
     public function testCreateTaskLogged()
@@ -68,25 +81,25 @@ class TaskControllerTest extends WebTestCase
         $client = $this->createClientLoggedAsBasicUser();
 
         $client->request('GET', '/tasks/create');
-        $client->submitForm('Ajouter',  [
+        $client->submitForm('Ajouter', [
             'task[title]' => 'toto',
             'task[content]' => 'test task'
         ]);
 
-        $this->assertSelectorTextContains('div.alert-success','La tâche a bien été ajoutée.');
+        $this->assertSelectorTextContains('div.alert-success', 'La tâche a bien été ajoutée.');
     }
 
-    public function testTaskEdition()
+    public function testTaskEditionWithOwner()
     {
         $client = $this->createClientUnlogged();
 
         $client->request('GET', '/tasks/2/edit');
-        $client->submitForm('Modifier',  [
+        $client->submitForm('Modifier', [
             'task[title]' => 'toto',
             'task[content]' => 'test task'
         ]);
 
-        $this->assertSelectorTextContains('div.alert-success','La tâche a bien été modifiée.');
+        $this->assertSelectorTextContains('div.alert-success', 'La tâche a bien été modifiée.');
     }
 
     public function testEditTaskPage()
@@ -104,14 +117,14 @@ class TaskControllerTest extends WebTestCase
 
         $client->request('GET', '/tasks/2/toggle');
 
-        $this->assertSelectorTextContains('div.alert-success','a bien été marquée comme faite.');
+        $this->assertSelectorTextContains('div.alert-success', 'a bien été marquée comme faite.');
     }
 
     private function createClientLoggedAsBasicUser()
     {
         $client = static::createClient([], [
             'PHP_AUTH_USER' => 'basic@changezmoi.fr',
-            'PHP_AUTH_PW'   => 'basic',
+            'PHP_AUTH_PW' => 'basic',
         ]);
         $client->followRedirects();
 
@@ -122,7 +135,7 @@ class TaskControllerTest extends WebTestCase
     {
         $client = static::createClient([], [
             'PHP_AUTH_USER' => 'admin@changezmoi.fr',
-            'PHP_AUTH_PW'   => 'admin',
+            'PHP_AUTH_PW' => 'admin',
         ]);
         $client->followRedirects();
 

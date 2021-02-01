@@ -49,7 +49,7 @@ class UserControllerTest extends WebTestCase
         $client = $this->createClientLoggedAsAdminUser();
 
         $client->request('POST', '/users/create');
-        $client->submitForm('Ajouter',  [
+        $client->submitForm('Ajouter', [
             'user[username]' => 'toto',
             'user[password][first]' => 'toto',
             'user[password][second]' => 'toto',
@@ -57,7 +57,7 @@ class UserControllerTest extends WebTestCase
             'user[admin]' => '1'
         ]);
 
-        $this->assertSelectorTextContains('div.alert-success','L\'utilisateur a bien été ajouté.');
+        $this->assertSelectorTextContains('div.alert-success', 'L\'utilisateur a bien été ajouté.');
     }
 
     public function testUserEdition()
@@ -66,14 +66,14 @@ class UserControllerTest extends WebTestCase
 
         $client->request('POST', '/users/3/edit');
 
-        $client->submitForm('Modifier',  [
+        $client->submitForm('Modifier', [
             'user[username]' => 'toto',
             'user[password][first]' => 'toto',
             'user[password][second]' => 'toto',
             'user[email]' => 'toto@gmail.com',
         ]);
 
-        $this->assertSelectorTextContains('div.alert-success','L\'utilisateur a bien été modifié.');
+        $this->assertSelectorTextContains('div.alert-success', 'L\'utilisateur a bien été modifié.');
     }
 
     private function createClientUnlogged(bool $withRedirects = true)
@@ -88,7 +88,7 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient([], [
             'PHP_AUTH_USER' => 'basic@changezmoi.fr',
-            'PHP_AUTH_PW'   => 'basic',
+            'PHP_AUTH_PW' => 'basic',
         ]);
 
         if ($withRedirects) $client->followRedirects();
@@ -100,7 +100,7 @@ class UserControllerTest extends WebTestCase
     {
         $client = static::createClient([], [
             'PHP_AUTH_USER' => 'admin@changezmoi.fr',
-            'PHP_AUTH_PW'   => 'admin',
+            'PHP_AUTH_PW' => 'admin',
         ]);
 
         if ($withRedirects) $client->followRedirects();

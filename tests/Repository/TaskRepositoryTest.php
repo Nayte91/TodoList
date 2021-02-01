@@ -20,7 +20,7 @@ class TaskRepositoryTest extends KernelTestCase
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
             ->getManager();
-        
+
         $kernel->shutdown();
     }
 

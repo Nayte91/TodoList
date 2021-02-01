@@ -43,8 +43,8 @@ class TestFixtures extends Fixture
         return $anonymousUser
             ->setEmail('anonymous@todoandco.com')
             ->setPassword($this->encoder->encodePassword($anonymousUser, '1ntr0uv4bl3'))
-            ->setUsername('anonyme')
-            ;
+            ->setRoles(['ANONYMOUS'])
+            ->setUsername('anonyme');
     }
 
     private function createAdminUser(): User
@@ -54,8 +54,7 @@ class TestFixtures extends Fixture
             ->setEmail('admin@changezmoi.fr')
             ->setPassword($this->encoder->encodePassword($adminUser, 'admin'))
             ->setAdmin(true)
-            ->setUsername('administrateur')
-            ;
+            ->setUsername('administrateur');
     }
 
     private function createBasicUser()
@@ -65,8 +64,7 @@ class TestFixtures extends Fixture
             ->setEmail('basic@changezmoi.fr')
             ->setPassword($this->encoder->encodePassword($basicUser, 'basic'))
             ->setAdmin(false)
-            ->setUsername('utilisateur basique')
-            ;
+            ->setUsername('utilisateur basique');
     }
 
     private function createUnlinkedTask(User $anonymous): Task
@@ -75,8 +73,7 @@ class TestFixtures extends Fixture
         return $anonymousTask
             ->setTitle('Tache anonyme')
             ->setContent('Cette tache n\'est attachée à aucun utilisateur particulier')
-            ->setOwner($anonymous)
-            ;
+            ->setOwner($anonymous);
     }
 
     private function createAdminTask(User $admin): Task
@@ -85,8 +82,7 @@ class TestFixtures extends Fixture
         return $adminTask
             ->setTitle('Tache administrateur')
             ->setContent('Cette tache appartient à l\'administrateur.')
-            ->setOwner($admin)
-            ;
+            ->setOwner($admin);
     }
 
     private function createBasicTask(User $user): Task
@@ -95,7 +91,6 @@ class TestFixtures extends Fixture
         return $basicTask
             ->setTitle('Tache classique')
             ->setContent('Cette tache appartient à un utilisateur normal.')
-            ->setOwner($user)
-            ;
+            ->setOwner($user);
     }
 }

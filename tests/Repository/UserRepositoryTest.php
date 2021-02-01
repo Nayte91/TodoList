@@ -19,15 +19,14 @@ class UserRepositoryTest extends KernelTestCase
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager()
-        ;
+            ->getManager();
 
         $kernel->shutdown();
     }
 
     public function testCountUsersReturnsTwo()
     {
-        $number = (int) $this->entityManager->getRepository(User::class)->countUsers();
+        $number = (int)$this->entityManager->getRepository(User::class)->countUsers();
 
         $this->assertSame(3, $number);
     }

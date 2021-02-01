@@ -15,10 +15,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * @Route("/users")
  * @IsGranted("ROLE_ADMIN", message="You can't access without admin rights.")
  */
-class UserController extends AbstractController
+final class UserController extends AbstractController
 {
     /** @Route("/", name="user_list") */
-    public function listAction(UserRepository $userRepository)
+    public function listUsers(UserRepository $userRepository)
     {
         return $this->render('user/list.html.twig', [
             'users' => $userRepository->findRealUsers(),
@@ -26,7 +26,7 @@ class UserController extends AbstractController
     }
 
     /** @Route("/create", name="user_create", methods={"GET", "POST"}) */
-    public function createAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository)
+    public function createUser(Request $request)
     {
         $user = new User;
         $form = $this->createForm(UserType::class, $user);
@@ -50,7 +50,7 @@ class UserController extends AbstractController
     }
 
     /** @Route("/{id}/edit", name="user_edit", methods={"GET", "POST"}) */
-    public function editAction(User $user, Request $request)
+    public function editUser(User $user, Request $request)
     {
         $form = $this->createForm(UserType::class, $user);
 

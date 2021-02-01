@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+final class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -41,8 +41,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $this->createQueryBuilder('u')
             ->select('count(u.id)')
             ->getQuery()
-            ->getSingleScalarResult()
-        ;
+            ->getSingleScalarResult();
     }
 
     public function findRealUsers(): array
@@ -51,8 +50,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere('u.email != :email')
             ->setParameter('email', "anonymous@todoandco.com")
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function getTheAnonymousUser(): User
@@ -61,7 +59,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere('u.email = :email')
             ->setParameter('email', "anonymous@todoandco.com")
             ->getQuery()
-            ->getSingleResult()
-            ;
+            ->getSingleResult();
     }
 }

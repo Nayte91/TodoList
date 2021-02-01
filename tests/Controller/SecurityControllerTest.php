@@ -22,11 +22,11 @@ class SecurityControllerTest extends WebTestCase
         $client->followRedirects();
 
         $client->request('GET', '/login');
-        $client->submitForm('Sign in',  [
+        $client->submitForm('Sign in', [
             'email' => 'admin@changezmoi.fr',
             'password' => 'admin'
         ]);
 
-        $this->assertSelectorTextContains('a.btn-danger','Se déconnecter');
+        $this->assertSelectorTextContains('a.btn-danger', 'Se déconnecter');
     }
 }
