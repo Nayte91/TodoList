@@ -21,7 +21,7 @@ class DefaultControllerTest extends WebTestCase
         $client = static::createClient();
         $homepage = $client->request('GET', '/');
 
-        $this->assertEquals(4,count($homepage->filter('a.btn')));
+        $this->assertEquals(4, count($homepage->filter('a.btn')));
         $this->assertSame('Se connecter', $homepage->filter('a.btn')->eq(0)->text());
     }
 }

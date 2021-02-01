@@ -31,8 +31,7 @@ class AppFixtures extends Fixture
         return $anonymousUser
             ->setEmail('anonymous@todoandco.com')
             ->setPassword($this->encoder->encodePassword($anonymousUser, '1ntr0uv4bl3'))
-            ->setUsername('anonyme')
-            ;
+            ->setUsername('anonyme');
     }
 
     private function createAdminUser(): User
@@ -42,7 +41,6 @@ class AppFixtures extends Fixture
             ->setEmail('admin@changezmoi.fr')
             ->setPassword($this->encoder->encodePassword($adminUser, 'admin'))
             ->setAdmin(true)
-            ->setUsername('administrateur')
-            ;
+            ->setUsername('administrateur');
     }
 }

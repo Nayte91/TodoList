@@ -41,8 +41,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $this->createQueryBuilder('u')
             ->select('count(u.id)')
             ->getQuery()
-            ->getSingleScalarResult()
-        ;
+            ->getSingleScalarResult();
     }
 
     public function findRealUsers(): array
@@ -51,8 +50,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere('u.email != :email')
             ->setParameter('email', "anonymous@todoandco.com")
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function getTheAnonymousUser(): User
@@ -61,7 +59,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->andWhere('u.email = :email')
             ->setParameter('email', "anonymous@todoandco.com")
             ->getQuery()
-            ->getSingleResult()
-            ;
+            ->getSingleResult();
     }
 }

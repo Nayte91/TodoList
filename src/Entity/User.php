@@ -76,7 +76,7 @@ class User implements UserInterface
 
     public function getUsername(): string
     {
-        return (string) ucfirst($this->username);
+        return (string)ucfirst($this->username);
     }
 
     public function setUsername(string $username): self
@@ -110,7 +110,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -123,12 +123,16 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt() { }
+    public function getSalt()
+    {
+    }
 
     /**
      * @see UserInterface
      */
-    public function eraseCredentials() { }
+    public function eraseCredentials()
+    {
+    }
 
     /**
      * @return Collection|Task[]
@@ -167,7 +171,7 @@ class User implements UserInterface
 
     public function setAdmin(bool $adminMode): self
     {
-        ($adminMode)? $this->setRoles(['ROLE_ADMIN']):$this->setRoles([]);
+        ($adminMode) ? $this->setRoles(['ROLE_ADMIN']) : $this->setRoles([]);
 
         return $this;
     }
