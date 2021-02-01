@@ -23,7 +23,7 @@ RUN echo -e '\033[1;31m Building Blackfire profiler... \033[0m \n'   \
     && mv /tmp/blackfire/blackfire-*.so $(php -r "echo ini_get ('extension_dir');")/blackfire.so \
     && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
     && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz \
- && echo -e '\033[1;31m ...Blackfire profiler OK \033[0m \n'
+ && echo -e '\033[1;31m ...Blackfire profiler build OK \033[0m \n'
 
 # Please note that the Blackfire Probe is dependent on the session module.
 # Activate the session module in docker-compose.yml.
