@@ -22,7 +22,7 @@ final class TaskControllerTest extends WebTestCase
         $client = $this->createClientUnlogged();
         $taskIndex = $client->request('GET', '/tasks');
 
-        $this->assertSame(3, count($taskIndex->filter('span.glyphicon-remove')));
+        $this->assertSame(3, count($taskIndex->filter('i.fa-thumbtack')));
     }
 
     public function testDeleteTaskNotOwned()
