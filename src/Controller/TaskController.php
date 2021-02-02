@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
-use App\Repository\UserRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,7 +85,7 @@ final class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
      */
-    public function deleteTask(Task $task, UserRepository $userRepository)
+    public function deleteTask(Task $task)
     {
         $this->denyAccessUnlessGranted('DELETE', $task,'Vous ne pouvez supprimer cette tâche.');
 

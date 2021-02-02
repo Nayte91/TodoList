@@ -31,10 +31,10 @@ pass : admin
 
 ## Tests
 
-* Pour lancer les tests et générer le rapport de couverture de code en html, qui sera dans le répertoire reports/ :
+- Pour lancer les tests et générer le rapport de couverture de code en html, qui sera dans le répertoire reports/ :
 
 `docker-compose exec backend php bin/phpunit --coverage-html reports/`
 
-* Pour lancer l'analyse statique du code :
+- Pour lancer l'analyse statique du code :
 
 `docker-compose exec backend php vendor/bin/phpstan analyse src/`
