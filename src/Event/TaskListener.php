@@ -27,8 +27,9 @@ final class TaskListener
 
         if (!$this->security->getUser()) {
             $task->setOwner($this->userRepository->findOneBy(['username' => 'anonyme']));
-        } else {
-            $task->setOwner($this->security->getUser());
+            return;
         }
+
+        $task->setOwner($this->security->getUser());
     }
 }
