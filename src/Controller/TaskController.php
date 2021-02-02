@@ -14,10 +14,20 @@ final class TaskController extends AbstractController
     /**
      * @Route("/tasks", name="task_list")
      */
-    public function listTasks(TaskRepository $taskRepository)
+    public function listUndoneTasks(TaskRepository $taskRepository)
     {
         return $this->render('task/list.html.twig', [
-            'tasks' => $taskRepository->findAll()
+            'tasks' => $taskRepository->fetchTasksUndone(),
+        ]);
+    }
+
+    /**
+     * @Route("/tasksdone", name="task_done")
+     */
+    public function listDoneTasks(TaskRepository $taskRepository)
+    {
+        return $this->render('task/listdone.html.twig', [
+            'tasks' => $taskRepository->fetchTasksDone(),
         ]);
     }
 
@@ -74,12 +84,13 @@ final class TaskController extends AbstractController
      */
     public function toggleTask(Task $task)
     {
+        $state = $task->isDone();
         $task->toggle(!$task->isDone());
         $this->getDoctrine()->getManager()->flush();
 
-        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+        $route = ($state)?'task_done':'task_list';
 
-        return $this->redirectToRoute('task_list');
+        return $this->redirectToRoute($route);
     }
 
     /**
@@ -87,7 +98,7 @@ final class TaskController extends AbstractController
      */
     public function deleteTask(Task $task)
     {
-        $this->denyAccessUnlessGranted('DELETE', $task,'Vous ne pouvez supprimer cette tâche.');
+        $this->denyAccessUnlessGranted('DELETE', $task, 'Vous ne pouvez supprimer cette tâche.');
 
         $manager = $this->getDoctrine()->getManager();
         $manager->remove($task);

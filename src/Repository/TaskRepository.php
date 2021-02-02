@@ -18,4 +18,20 @@ final class TaskRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Task::class);
     }
+
+    public function fetchTasksDone()
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.isDone = 1')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function fetchTasksUndone()
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.isDone = 0')
+            ->getQuery()
+            ->getResult();
+    }
 }

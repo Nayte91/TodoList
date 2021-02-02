@@ -33,6 +33,7 @@ class TestFixtures extends Fixture
         $manager->persist($this->createUnlinkedTask($anonymousUser));
         $manager->persist($this->createAdminTask($adminUser));
         $manager->persist($this->createBasicTask($basicUser));
+        $manager->persist($this->createDoneTask($basicUser));
 
         $manager->flush();
     }
@@ -91,6 +92,16 @@ class TestFixtures extends Fixture
         return $basicTask
             ->setTitle('Tache classique')
             ->setContent('Cette tache appartient à un utilisateur normal.')
+            ->setOwner($user);
+    }
+
+    private function createDoneTask(User $user): Task
+    {
+        $doneTask = new Task;
+        $doneTask->toggle(true);
+        return $doneTask
+            ->setTitle('Tache complète')
+            ->setContent('Cette tache est finie.')
             ->setOwner($user);
     }
 }

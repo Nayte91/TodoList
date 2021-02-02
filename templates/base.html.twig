@@ -96,7 +96,7 @@
                        class="btn btn-{% if 'task_list' == app.request.attributes.get('_route') %}outline-{% endif %}info">
                         Liste des tâches à faire
                     </a>
-                    <a href="" class="btn btn-{% if 'task_done' == app.request.attributes.get('_route') %}outline-{% endif %}light">
+                    <a href="{{ path('task_done') }}" class="btn btn-{% if 'task_done' == app.request.attributes.get('_route') %}outline-{% endif %}light">
                         Liste des tâches terminées
                     </a>
                 </div>
