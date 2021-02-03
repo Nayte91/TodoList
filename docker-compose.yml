@@ -25,7 +25,7 @@ services:
       context: .
       dockerfile: system/backend/Dockerfile
       args:
-        PHP_VERSION: 7.2
+        PHP_VERSION: 7.4
         COMPOSER_VERSION: 1
     depends_on:
       - database
