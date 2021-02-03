@@ -1,5 +1,7 @@
 # Project n°8 : BileMo
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/02702f80ddce4a2ba8ff61d2b50a1f8e)](https://www.codacy.com/gh/Nayte91/TodoList/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Nayte91/TodoList&amp;utm_campaign=Badge_Grade)
+
 ## Lancement du projet avec Docker
 
 1. Lancer les containers en tapant `docker-compose up --build -d` à la racine du projet
