@@ -24,9 +24,23 @@ class TaskRepositoryTest extends KernelTestCase
         $kernel->shutdown();
     }
 
-    public function testFindTasks()
+    public function testFindAllTasks()
     {
         $tasks = $this->entityManager->getRepository(Task::class)->findAll();
+
+        $this->assertSame(4, count($tasks));
+    }
+
+    public function testFindDoneTasks()
+    {
+        $tasks = $this->entityManager->getRepository(Task::class)->fetchTasksDone();
+
+        $this->assertSame(1, count($tasks));
+    }
+
+    public function testFindUndoneTasks()
+    {
+        $tasks = $this->entityManager->getRepository(Task::class)->fetchTasksUndone();
 
         $this->assertSame(3, count($tasks));
     }
@@ -35,7 +49,6 @@ class TaskRepositoryTest extends KernelTestCase
     {
         parent::tearDown();
 
-        // doing this is recommended to avoid memory leaks
         $this->entityManager->close();
         $this->entityManager = null;
     }

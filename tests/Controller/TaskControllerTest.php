@@ -17,12 +17,20 @@ final class TaskControllerTest extends WebTestCase
         $this->ensureKernelShutdown();
     }
 
-    public function testListTasksPage()
+    public function testListTasksUndone()
     {
         $client = $this->createClientUnlogged();
         $taskIndex = $client->request('GET', '/tasks');
 
-        $this->assertSame(3, count($taskIndex->filter('span.glyphicon-remove')));
+        $this->assertSame(3, count($taskIndex->filter('i.fa-thumbtack')));
+    }
+
+    public function testListTasksDone()
+    {
+        $client = $this->createClientUnlogged();
+        $taskIndex = $client->request('GET', '/tasksdone');
+
+        $this->assertSame(1, count($taskIndex->filter('i.fa-check')));
     }
 
     public function testDeleteTaskNotOwned()
@@ -115,9 +123,9 @@ final class TaskControllerTest extends WebTestCase
     {
         $client = $this->createClientUnlogged();
 
-        $client->request('GET', '/tasks/2/toggle');
+        $taskIndex = $client->request('GET', '/tasks/2/toggle');
 
-        $this->assertSelectorTextContains('div.alert-success', 'a bien été marquée comme faite.');
+        $this->assertSame(2, count($taskIndex->filter('i.fa-thumbtack')));
     }
 
     private function createClientLoggedAsBasicUser()

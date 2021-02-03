@@ -22,7 +22,7 @@ class SecurityControllerTest extends WebTestCase
         $client->followRedirects();
 
         $client->request('GET', '/login');
-        $client->submitForm('Sign in', [
+        $client->submitForm('Connexion', [
             'email' => 'admin@changezmoi.fr',
             'password' => 'admin'
         ]);
