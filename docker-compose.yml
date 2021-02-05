@@ -42,7 +42,11 @@ services:
       MYSQL_DATABASE: todolist
     volumes:
       - mysql_data:/var/lib/mysql
+# Uncomment below if you need to get direct access to your database
+#    ports:
+#      - 3306:3306
 
+# Uncomment to set up blackfire agent (see also Dockerfile for php module)
   blackfire:
     container_name: todo-blackfire
     image: blackfire/blackfire
