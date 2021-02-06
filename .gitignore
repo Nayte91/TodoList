@@ -13,5 +13,5 @@
 .phpunit
 .phpunit.result.cache
 /phpunit.xml
-/reports/
+/report/
 ###< symfony/phpunit-bridge ###
